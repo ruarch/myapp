@@ -1,0 +1,8 @@
+{
+  "name": "forms",
+  "description": "Forms",
+  "main": "forms.js",
+  "dependencies": {
+    "tabris": "^1.0.0"
+  }
+}
