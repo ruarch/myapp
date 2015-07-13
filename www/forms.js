@@ -67,6 +67,49 @@ setInterval(function() {
     layoutData: {top: [button, 20], left: 20, right: 20, bottom: 20}
   }).appendTo(page);
 
+
+    var button = tabris.create("Button", {
+    id:"Audiobtn",
+    text: "Play Audio"
+  }).appendTo(page).on("select", function() {
+    playAudio('http://67.159.60.45:8066/');
+  });
+
+      var button = tabris.create("Button", {
+    id:"locationbtn",
+    text: "Show Location"
+  }).appendTo(page).on("select", function() {
+        window.plugins.GPSLocator.getLocation(function(result){
+    console.log(JSON.stringify(result));//result[0]:latitude,result[1]:longitude.
+    },function(e){
+        console.log(JSON.stringify(e));//Error Message
+    });
+  });
+function playAudio(url) {
+    // Play the audio file at url
+    var my_media = new Media(url,
+        // success callback
+        function() {
+            console.log("playAudio():Audio Success");
+        },
+        // error callback
+        function(err) {
+            console.log("playAudio():Audio Error: "+err);
+    });
+
+    // Play audio
+    my_media.play();
+
+    // Mute volume after 2 seconds
+    setTimeout(function() {
+        my_media.setVolume('0.0');
+    }, 2000);
+
+    // Set volume to 1.0 after 5 seconds
+    setTimeout(function() {
+        my_media.setVolume('1.0');
+    }, 5000);
+}
 function validate(text)
 {
   if(text=='')
@@ -102,7 +145,9 @@ page.apply({
   "#firstNameLabel": {layoutData: {left: 10, top: 18, width: 120}},
    "#firstNameInput": {layoutData: {left: ["#firstNameLabel", 10], right: 10, baseline: "#firstNameLabel"}},
    "#done": {layoutData: {left: ["#firstNameLabel", 10], right: 10, top: ["#firstNameInput", 18]}},
-    "#picturebtn": {layoutData: {left: ["#firstNameLabel", 10], right: 10, top: ["#done", 18]}}
+    "#picturebtn": {layoutData: {left: ["#firstNameLabel", 10], right: 10, top: ["#done", 18]}},
+    "#Audiobtn": {layoutData: {left: ["#firstNameLabel", 10], right: 10, top: ["#picturebtn", 18]}},
+    "#locationbtn": {layoutData: {left: ["#firstNameLabel", 10], right: 10, top: ["#Audiobtn", 18]}},
 });
 
 page.open();
